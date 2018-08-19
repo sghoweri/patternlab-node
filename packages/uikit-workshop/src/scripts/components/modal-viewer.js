@@ -10,9 +10,9 @@
  *
  */
 
+import $ from 'jquery';
 import { urlHandler, DataSaver, Dispatcher } from '../utils';
 import { panelsViewer } from './panels-viewer';
-import $ from 'jquery';
 
 export const modalViewer = {
   // set up some defaults
@@ -28,7 +28,7 @@ export const modalViewer = {
   /**
    * initialize the modal window
    */
-  onReady: function() {
+  onReady() {
     // make sure the listener for checkpanels is set-up
     Dispatcher.addListener('insertPanels', modalViewer.insert);
 
@@ -83,7 +83,7 @@ export const modalViewer = {
   /**
    * toggle the modal window open and closed
    */
-  toggle: function() {
+  toggle() {
     if (modalViewer.active === false) {
       modalViewer.queryPattern();
     } else {
@@ -100,7 +100,7 @@ export const modalViewer = {
   /**
    * open the modal window
    */
-  open: function() {
+  open() {
     // make sure the modal viewer and other options are off just in case
     modalViewer.close();
 
@@ -115,9 +115,7 @@ export const modalViewer = {
   /**
    * close the modal window
    */
-  close: function() {
-    let obj;
-
+  close() {
     // note that the modal viewer is no longer active
     DataSaver.updateValue('modalActive', 'false');
     modalViewer.active = false;
@@ -132,7 +130,7 @@ export const modalViewer = {
     $('.pl-js-pattern-info-toggle').html('Show Pattern Info');
 
     // tell the styleguide to close
-    obj = JSON.stringify({
+    const obj = JSON.stringify({
       event: 'patternLab.patternModalClose',
     });
     document
@@ -143,8 +141,8 @@ export const modalViewer = {
   /**
    * hide the modal window
    */
-  hide: function() {
     $('.pl-js-modal').removeClass('pl-is-active');
+  hide() {
 
   },
 
@@ -155,12 +153,7 @@ export const modalViewer = {
    * @param  {Boolean}      if the refresh is of a view-all view and the content should be sent back
    * @param  {Boolean}      if the text in the dropdown should be switched
    */
-  insert: function(
-    templateRendered,
-    patternPartial,
-    iframePassback,
-    switchText
-  ) {
+  insert(templateRendered, patternPartial, iframePassback, switchText) {
     if (iframePassback) {
       // send a message to the pattern
       let obj = JSON.stringify({
@@ -189,7 +182,7 @@ export const modalViewer = {
    * @param  {Boolean}      if the refresh is of a view-all view and the content should be sent back
    * @param  {Boolean}      if the text in the dropdown should be switched
    */
-  refresh: function(patternData, iframePassback, switchText) {
+  refresh(patternData, iframePassback, switchText) {
     // if this is a styleguide view close the modal
     if (iframePassback) {
       modalViewer.hide();
@@ -203,8 +196,8 @@ export const modalViewer = {
    * slides the modal window into or out of view
    * @param  {Integer}      where the modal window should be slide to
    */
-  slide: function(pos) {
     $('.pl-js-modal').toggleClass('pl-is-active');
+  slide(pos) {
 
     // WIP: refactoring viewport panel to use CSS vars to resize
     // if ($('.pl-js-modal').hasClass('pl-is-active')) {
@@ -221,7 +214,7 @@ export const modalViewer = {
    * slides the modal window to a particular annotation
    * @param  {Integer}      the number for the element that should be highlighted
    */
-  slideToAnnotation: function(pos) {
+  slideToAnnotation(pos) {
     // remove active class
     els = document.querySelectorAll('.pl-js-annotations li');
     for (i = 0; i < els.length; ++i) {
@@ -245,8 +238,8 @@ export const modalViewer = {
   /**
    * Show modal
    */
-  show: function() {
     $('.pl-js-modal').addClass('pl-is-active');
+  show() {
 
   },
 
@@ -254,7 +247,7 @@ export const modalViewer = {
    * ask the pattern for info so we can open the modal window and populate it
    * @param  {Boolean}      if the dropdown text should be changed
    */
-  queryPattern: function(switchText) {
+  queryPattern(switchText) {
     // note that the modal is active and set switchText
     if (switchText === undefined || switchText) {
       switchText = true;
@@ -277,7 +270,7 @@ export const modalViewer = {
    * based on the great MDN docs at https://developer.mozilla.org/en-US/docs/Web/API/window.postMessage
    * @param  {Object}      event info
    */
-  receiveIframeMessage: function(event) {
+  receiveIframeMessage(event) {
     var els, i;
 
     // does the origin sending the message match the current host? if not dev/null the request
