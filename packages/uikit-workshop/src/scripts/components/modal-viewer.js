@@ -288,7 +288,7 @@ export const modalViewer = {
         typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
     } catch (e) {}
 
-    if (data.event !== undefined && data.event == 'patternLab.pageLoad') {
+    if (data.event !== undefined && data.event === 'patternLab.pageLoad') {
       if (
         modalViewer.active === false &&
         data.patternpartial !== undefined &&
@@ -302,7 +302,7 @@ export const modalViewer = {
       }
     } else if (
       data.event !== undefined &&
-      data.event == 'patternLab.patternQueryInfo'
+      data.event === 'patternLab.patternQueryInfo'
     ) {
       // refresh the modal if a new pattern is loaded and the modal is active
       modalViewer.refresh(
@@ -312,7 +312,7 @@ export const modalViewer = {
       );
     } else if (
       data.event !== undefined &&
-      data.event == 'patternLab.annotationNumberClicked'
+      data.event === 'patternLab.annotationNumberClicked'
     ) {
       // slide to a given annoation
       modalViewer.slideToAnnotation(data.displayNumber);
