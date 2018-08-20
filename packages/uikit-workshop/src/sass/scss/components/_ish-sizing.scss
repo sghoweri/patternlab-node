@@ -65,15 +65,16 @@
  * larger or smaller.
  */
 .pl-c-size-list {
-    display: none;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 
-    @media all and (min-width: $pl-bp-large) {
-        display: block;
-        display: flex;
-    }
+  @media all and (min-width: $pl-bp-large) {
+    display: block;
+    display: flex;
+    align-items: center;
+  }
 }
 
 /**
