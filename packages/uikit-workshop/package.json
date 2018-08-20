@@ -74,10 +74,14 @@
     "typeahead.js": "^0.11.1",
     "whendefined": "^0.0.1",
     "wolfy87-eventemitter": "^5.2.4",
+    "document-register-element": "^1.11.0",
+    "@skatejs/renderer-preact": "^0.3.3",
+    "skatejs": "^5.2.3",
     "preact": "^8.3.1",
     "preact-compat": "^3.18.3",
     "@babel/plugin-syntax-jsx": "^7.0.0-rc.1",
     "@babel/plugin-transform-react-jsx": "^7.0.0-rc.1",
     "@babel/plugin-proposal-class-properties": "^7.0.0-rc.1",
+    "@polymer/polymer": "^3.0.5"
   }
 }
