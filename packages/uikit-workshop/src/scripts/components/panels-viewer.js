@@ -1,29 +1,37 @@
+/** @jsx h */
 /*!
  * Panel Builder. Supports building the panels to be included in the modal or styleguide
- *
- * Copyright (c) 2013-16 Dave Olsen, http://dmolsen.com
- * Licensed under the MIT license
- *
- * @requires panels.js
- * @requires url-handler.js
  */
+
+import Clipboard from 'clipboard';
+import Hogan from 'hogan.js';
+import Prism from 'prismjs';
+import { props, withComponent } from 'skatejs';
+import withPreact from '@skatejs/renderer-preact';
+import { h } from 'preact';
 
 import { Panels } from './panels';
 import { panelsUtil } from './panels-util';
 import { urlHandler, Dispatcher } from '../utils';
-import Clipboard from 'clipboard';
-import $ from 'jquery';
-import Hogan from 'hogan.js';
-import Prism from 'prismjs';
 
-export const panelsViewer = {
-  // set up some defaults
-  targetOrigin:
-    window.location.protocol === 'file:'
-      ? '*'
-      : window.location.protocol + '//' + window.location.host,
-  initCopy: false,
-  initMoveTo: 0,
+const installCE = require('document-register-element/pony');
+installCE(global, 'force');
+
+export class PanelsViewer extends withComponent(withPreact()) {
+  static props = { active: props.boolean };
+
+  constructor(self) {
+    self = super(self);
+    this.targetOrigin =
+      window.location.protocol === 'file:'
+        ? '*'
+        : window.location.protocol + '//' + window.location.host;
+    this.initCopy = false;
+    this.initMoveTo = 0;
+    this.checkPanels = this.checkPanels.bind(this);
+
+    return self;
+  }
 
   /**
    * Check to see if all of the panels have been collected before rendering
@@ -31,8 +39,10 @@ export const panelsViewer = {
    * @param  {String}      the data from the pattern
    * @param  {Boolean}     if this is going to be passed back to the styleguide
    */
-  checkPanels: function(panels, patternData, iframePassback, switchText) {
+  checkPanels(panels, patternData, iframePassback, switchText) {
     // count how many panels have rendered content
+    const self = this;
+
     let panelContentCount = 0;
     for (let i = 0; i < panels.length; ++i) {
       if (panels[i].content !== undefined) {
@@ -42,28 +52,23 @@ export const panelsViewer = {
 
     // see if the count of panels with content matches number of panels
     if (panelContentCount === Panels.count()) {
-      panelsViewer.renderPanels(
-        panels,
-        patternData,
-        iframePassback,
-        switchText
-      );
+      self._render(panels, patternData, iframePassback, switchText);
     }
-  },
+  }
 
   /**
    * Gather the panels related to the modal
    * @param  {String}      the data from the pattern
    * @param  {Boolean}     if this is going to be passed back to the styleguide
    */
-  gatherPanels: function(patternData, iframePassback, switchText) {
-    Dispatcher.addListener('checkPanels', panelsViewer.checkPanels);
+  gatherPanels(patternData, iframePassback, switchText) {
+    Dispatcher.addListener('checkPanels', this.checkPanels);
 
     // set-up defaults
     let template, templateCompiled, templateRendered, panel;
 
     // get the base panels
-    let panels = Panels.get();
+    const panels = Panels.get();
 
     // evaluate panels array and create content
     for (let i = 0; i < panels.length; ++i) {
@@ -85,7 +90,7 @@ export const panelsViewer = {
       if (panel.templateID !== undefined && panel.templateID) {
         if (panel.httpRequest !== undefined && panel.httpRequest) {
           // need a file and then render
-          let fileBase = urlHandler.getFileName(
+          const fileBase = urlHandler.getFileName(
             patternData.patternPartial,
             false
           );
@@ -110,7 +115,7 @@ export const panelsViewer = {
                 switchText,
               ]);
             };
-          })(i, panels, patternData, iframePassback);
+          })(i, panels, patternData);
 
           e.open(
             'GET',
@@ -133,7 +138,7 @@ export const panelsViewer = {
         }
       }
     }
-  },
+  }
 
   /**
    * Render the panels that have been collected
@@ -141,7 +146,7 @@ export const panelsViewer = {
    * @param  {String}      the data from the pattern
    * @param  {Boolean}     if this is going to be passed back to the styleguide
    */
-  renderPanels: function(panels, patternData, iframePassback, switchText) {
+  _render(panels, patternData, iframePassback, switchText) {
     // set-up defaults
     let template, templateCompiled, templateRendered;
     let annotation, comment, count, div, els, item, markup, i;
@@ -188,7 +193,7 @@ export const panelsViewer = {
       });
       document
         .querySelector('.pl-js-iframe')
-        .contentWindow.postMessage(obj, panelsViewer.targetOrigin);
+        .contentWindow.postMessage(obj, this.targetOrigin);
     }
 
     // add hasComma property to lineage
@@ -276,68 +281,38 @@ export const panelsViewer = {
     }
 
     // find lineage links in the rendered content and add postmessage handlers in case it's in the modal
-    $('.pl-js-lineage-link', templateRendered).on('click', function(e) {
-      e.preventDefault();
-      let obj = JSON.stringify({
-        event: 'patternLab.updatePath',
-        path: urlHandler.getFileName($(this).attr('data-patternpartial')),
+    // @todo: remove? It doesn't appear as if the template logic for handling lineages still exists
+    const lineageLinks = document.querySelectorAll('.pl-js-lineage-link');
+    if (lineageLinks) {
+      lineageLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const obj = JSON.stringify({
+            event: 'patternLab.updatePath',
+            path: urlHandler.getFileName(
+              e.target.getAttribute('data-patternpartial')
+            ),
+          });
+          document
+            .querySelector('.pl-js-iframe')
+            .contentWindow.postMessage(obj, this.targetOrigin);
+        });
       });
-      document
-        .querySelector('.pl-js-iframe')
-        .contentWindow.postMessage(obj, panelsViewer.targetOrigin);
-    });
+    }
 
-    // gather panels from plugins
-    Dispatcher.trigger('insertPanels', [
-      templateRendered,
-      patternPartial,
-      iframePassback,
-      switchText,
-    ]);
-  },
-};
+    if (this.firstChild) {
+      this.removeChild(this.firstChild);
+    }
+    this.appendChild(templateRendered);
+  }
 
-/**
- * Pattern panel resizer
- * 1) Add mousedown event listener to the modal resizer tab
- * 2) Display block on the modal cover when the panel is being dragged so fast
- * drags can occur.
- * 3) Create mousemove event on the cover since it spans the entire screen and
- * the mouse can be dragged into it without losing resizing
- * 4) Find the new panel height by taking the window height and subtracting the
- * Y-position within the modal cover. Set modal height to this.
- * 5) Add mouseup event to the body so that when drag is released, the modal
- * stops resizing and modal cover doesn't display anymore.
- */
-$('.pl-js-modal-resizer').mousedown(function(event) {
-  /* 1 */
+  // for the time being, always render to the light DOM
+  get renderRoot() {
+    return this;
+  }
+}
 
-  $('.pl-js-modal-cover').css('display', 'block'); /* 2 */
-
-  $('.pl-js-modal-cover').mousemove(function(event) {
-    /* 3 */
-    const panelHeight = window.innerHeight - event.clientY + 32; /* 4 */
-    $('.pl-js-modal').css('height', panelHeight + 'px'); /* 4 */
-
-    // WIP: updating PL viewport to be resized via CSS Vars
-    // $('.pl-js-modal').css('transition', 'none');
-    // $('.pl-js-vp-iframe-container').css('transition', 'none');
-    // $('html').css(
-    //   '--pl-viewport-height',
-    //   window.innerHeight - panelHeight - 32 + 'px'
-    // ); /* 4 */
-  });
-});
-
-$('body').mouseup(function() {
-  /* 5 */
-  $('.pl-js-modal').unbind('mousemove'); /* 5 */
-  $('.pl-js-modal-cover').css('display', 'none'); /* 5 */
-
-  // WIP: updating viewport resizer to use CSS custom props.
-  // $('.pl-js-modal').css('transition', '');
-  // $('.pl-js-vp-iframe-container').css('transition', '');
-});
+customElements.define('panels-viewer', PanelsViewer);
 
 // Copy to clipboard functionality
 let clipboard = new Clipboard('.pl-js-code-copy-btn');
