@@ -88,12 +88,10 @@ export const modalViewer = {
       modalViewer.queryPattern();
     } else {
       const obj = JSON.stringify({
+      this.sendMessage({
         event: 'patternLab.annotationsHighlightHide',
       });
-      document
-        .querySelector('.pl-js-iframe')
-        .contentWindow.postMessage(obj, modalViewer.targetOrigin);
-      modalViewer.close();
+      this.close();
     }
   },
 
@@ -121,11 +119,6 @@ export const modalViewer = {
     modalViewer.active = false;
 
     //Remove active class to modal
-    $('.pl-js-modal').removeClass('pl-is-active');
-
-    // WIP: refactoring viewport panel to use CSS vars to resize
-    // $('html').css('--pl-viewport-height', window.innerHeight - 32 + 'px');
-
     // update the wording
     $('.pl-js-pattern-info-toggle').html('Show Pattern Info');
 
@@ -185,7 +178,7 @@ export const modalViewer = {
   refresh(patternData, iframePassback, switchText) {
     // if this is a styleguide view close the modal
     if (iframePassback) {
-      modalViewer.hide();
+      this.hide();
     }
 
     // gather the data that will fill the modal window
@@ -199,15 +192,6 @@ export const modalViewer = {
     $('.pl-js-modal').toggleClass('pl-is-active');
   slide(pos) {
 
-    // WIP: refactoring viewport panel to use CSS vars to resize
-    // if ($('.pl-js-modal').hasClass('pl-is-active')) {
-    //   $('html').css(
-    //     '--pl-viewport-height',
-    //     window.innerHeight - $('.pl-js-modal').innerHeight() - 32 + 'px'
-    //   );
-    // } else {
-    //   $('html').css('--pl-viewport-height', window.innerHeight - 32 + 'px');
-    // }
   },
 
   /**
@@ -250,9 +234,9 @@ export const modalViewer = {
   queryPattern(switchText) {
     // note that the modal is active and set switchText
     if (switchText === undefined || switchText) {
-      switchText = true;
       DataSaver.updateValue('modalActive', 'true');
       modalViewer.active = true;
+      this.switchText = true;
     }
 
     // send a message to the pattern
@@ -281,7 +265,7 @@ export const modalViewer = {
       return;
     }
 
-    var data = {};
+    let data = {};
 
     try {
       data =
