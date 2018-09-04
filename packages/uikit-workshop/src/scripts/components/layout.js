@@ -14,17 +14,23 @@ try {
   ).innerHTML = templateRendered;
 
   /* load ish controls */
-  const controlsTemplate = document.querySelector(
-    '.pl-js-ish-controls-template'
-  );
-  const controlsTemplateCompiled = Hogan.compile(controlsTemplate.innerHTML);
-  const controlsTemplateRendered = controlsTemplateCompiled.render(
-    window.ishControls
-  );
-  document.querySelector(
-    '.pl-js-controls'
-  ).innerHTML = controlsTemplateRendered;
+  // const controlsTemplate = document.querySelector(
+  //   '.pl-js-ish-controls-template'
+  // );
+  // const controlsTemplateCompiled = Hogan.compile(controlsTemplate.innerHTML);
+  // const controlsTemplateRendered = controlsTemplateCompiled.render(
+  //   window.ishControls
+  // );
+  // document.querySelector(
+  //   '.pl-js-controls'
+  // ).innerHTML = controlsTemplateRendered;
 } catch (e) {
   const message = '<p>Please generate your site before trying to view it.</p>';
   document.querySelector('.pl-js-pattern-nav-target').innerHTML = message;
 }
+
+
+  // return (
+    
+  // );
+  

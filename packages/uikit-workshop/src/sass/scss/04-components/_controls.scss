@@ -10,13 +10,29 @@
   margin-left: auto; /* 2 */
   display: flex;
   flex-wrap: nowrap;
+  background-color: inherit;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 20; // so context menu is at a higher level than nav dropdown
+
+  .pl-c-body--theme-vertical &,
+  .pl-c-body--theme-sidebar & {
+    @media all and (min-width: $pl-bp-med) {
+      margin-top: auto;
+      margin-left: 0;
+      flex-direction: column;
+      padding: 0.4rem 1rem;
+      position: sticky;
+      bottom: 0;
+    }
+  }
 }
 
 /**
 * Control list
 */
 .pl-c-controls__list {
-  @include listReset();
+  @include listReset;
   display: flex;
   flex-wrap: nowrap;
 }

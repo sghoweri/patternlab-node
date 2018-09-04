@@ -7,34 +7,52 @@
  * 1) Collapse height on small screens. Menu trigger button
  *    activates nav
  */
+
+$nav-indentation: 1.5rem;
+
 .pl-c-nav {
-  @media all and (max-width: $pl-bp-med) {
+  background-color: inherit;
+  
+  @media all and (max-width: $pl-bp-med - 1) {
     position: absolute;
     top: 100%;
     width: 100%;
     overflow: hidden;
     max-height: 0; /* 1 */
-    background: $pl-color-black;
+    // background-color: $pl-color-black;
     display: flex;
     flex-direction: column;
     transition: max-height $pl-animate-quick ease-out;
+    z-index: 10; // so search results don't overlap context menu on mobile
 
     /**
-         * Active navigaiton
-         * 1) Slide 
-         * 2) Set the height to the vierport height minus the height
-         *    of the header
-         */
+      * Active navigaiton
+      * 1) Slide 
+      * 2) Set the height to the vierport height minus the height
+      *    of the header
+      */
     &.pl-is-active {
-      max-height: 50rem; /* 1 */
-      height: calc(100vh - #{$offset-top}); /* 2 */
+      // @include hideScrollBar;
+      max-height: 100vh;
+      max-height: calc(var(--viewport-height));
       overflow: auto;
-      @include hideScrollBar();
+      box-shadow: 0 1px 2px 0 rgba($pl-color-gray-xdark, 0.5);
     }
   }
 
   @media all and (min-width: $pl-bp-med) {
     display: flex;
+
+    .pl-c-body--theme-vertical &,
+    .pl-c-body--theme-sidebar & {
+      display: block;
+      flex-direction: column;
+      padding-top: 0;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+      padding-bottom: 0.5rem;
+      overflow: auto;
+    }
   }
 }
 
@@ -49,14 +67,28 @@
   margin: 0;
   padding: 0;
   list-style: none;
+  background-color: inherit;
 
-  @media all and (max-width: $pl-bp-med) {
+  @media all and (max-width: $pl-bp-med - 1) {
     order: 2; /* 3 */
   }
 
+  /**
+  * Nav list
+  * 1) Stack main categories on top of each other
+  * 2) Put typeahead search above nav list
+  */
   @media all and (min-width: $pl-bp-med) {
-    display: flex; /* 2 */
+    display: flex;
+
+    .pl-c-body--theme-vertical &,
+    .pl-c-body--theme-sidebar & {
+      flex-direction: column; /* 1 */
+      order: 2; /* 2 */
+    }
   }
+
+  
 }
 
 /**
@@ -65,6 +97,7 @@
 .pl-c-nav__item {
   cursor: pointer;
   position: relative;
+  background-color: inherit;
 }
 
 /**
@@ -82,9 +115,20 @@
  * Nav link
  */
 .pl-c-nav__link {
+  @include linkStyle;
+  @include noSelect;
   display: flex;
   align-items: center;
-  @include linkStyle();
+  height: 100%;
+
+  .pl-c-nav__sublist & {
+    .pl-c-body--theme-vertical &,
+    .pl-c-body--theme-sidebar & {
+      @media all and (min-width: $pl-bp-med) {
+        padding-left: $nav-indentation;
+      }
+    }
+  }
 }
 
 /**
@@ -94,7 +138,7 @@
  */
 .pl-c-nav__link--sublink {
   text-transform: none;
-  padding-left: 1rem;
+  padding-left: $nav-indentation;
 }
 
 /**
@@ -102,23 +146,32 @@
  */
 .pl-c-nav__link--dropdown {
   /**
-     * Dropdown caret after accordion handle
-     */
-  &:after {
-    content: '\25bc';
-    color: $pl-color-trans-white-25;
+    * Dropdown caret after accordion handle
+    */
+  &:before {
+    content: '\25e5';
+    color: currentColor;
     display: inline-block;
-    font-size: 7px;
+    font-size: 6px;
     position: relative;
-    top: 1px;
-    right: -2px;
-    transition: all $pl-animate-quick ease-out;
+    top: 0;
+    right: 0;
+    transition: transform $pl-animate-quick ease-out, opacity $pl-animate-quick ease-out;
+    transform: rotate(45deg);
+    opacity: 0.6;
+    margin-right: 0.5rem;
+    // padding: 6px;
+    line-height: 1;
+    // .pl-c-body--theme-light & {
+    //   color: $pl-color-gray;
+    // }
   }
 
   &:hover,
   &:focus {
     &:after {
-      color: $pl-color-gray-50;
+      opacity: 0.8;
+      // color: $pl-color-gray-dark;
     }
   }
 
@@ -126,18 +179,23 @@
      * Active dropdown
      */
   &.pl-is-active {
-    color: $pl-color-white;
-    background: $pl-color-gray-87;
+    // color: $pl-color-white;
+    // background-color: rgba($pl-color-white, 0.1);
 
     /**
-         * Caret rotation and positioning in active dropdown
-         */
-    &:after {
-      color: $pl-color-gray-50;
-      -webkit-transform: rotate(180deg);
-      -ms-transform: rotate(180deg);
-      transform: rotate(180deg);
+      * Caret rotation and positioning in active dropdown
+      */
+    &:before {
+      opacity: 1;
+      // color: $pl-color-white;
+      transform: rotate(90deg);
     }
+  }
+
+
+  .pl-c-body--theme-light & { 
+    color: $pl-color-gray-xdark;
+    background-color: $pl-color-white;
   }
 }
 
@@ -147,16 +205,38 @@
  *    hang over the header
  */
 .pl-c-nav__sublist {
-  @include listReset();
+  @include listReset;
+
+  .pl-c-body--theme-light & {
+    background-color: $pl-color-white;
+  }
+
+  .pl-c-body--theme-vertical &,
+  .pl-c-body--theme-sidebar & {
+    @media all and (min-width: $pl-bp-med) {
+      position: relative;
+      border-radius: 0;
+    }
+  }
 
   @media all and (min-width: $pl-bp-med) {
     position: absolute;
-    top: 100%; /* 1 */
+    top: auto;
     left: 0;
     min-width: 10rem;
     overflow: hidden;
     border-bottom-left-radius: $pl-border-radius-med;
     border-bottom-right-radius: $pl-border-radius-med;
+  }
+
+  &--dropdown {
+    box-shadow: 0 1px 2px 0 rgba($pl-color-gray-xdark, 0.5);
+
+    @media all and (min-width: $pl-bp-med) {
+      .pl-c-body--theme-vertical & {
+        box-shadow: none;
+      }
+    }
   }
 }
 
@@ -165,25 +245,43 @@
  */
 .pl-c-nav__sublist--dropdown,
 .pl-c-nav__subsublist--dropdown {
-  @include listReset();
-  @include accordionPanel();
-}
+  @include listReset;
+  @include accordionPanel;
+  background-color: inherit;
+  // background-color: $pl-color-black;
 
-/**
- * Dropdown sublist
- * 1) Set the height to the viewport height minus the height of the header
- */
-.pl-c-nav__sublist--dropdown.pl-is-active {
-  @media all and (min-width: $pl-bp-med) {
-    height: calc(100vh - #{$offset-top}); /* 1 */
+  .pl-c-body--theme-vertical &,
+  .pl-c-body--theme-sidebar & {
+    @media all and (min-width: $pl-bp-med) {
+      border: 0;
+      // border-left: 1px solid $pl-color-gray-xdark;
+    }
+  }
+
+  &.pl-is-active {
+    .pl-c-body--theme-vertical &,
+    .pl-c-body--theme-sidebar & {
+      @media all and (min-width: $pl-bp-med) {
+        max-height: none;
+      }
+    }
+  }
+
+  .pl-c-body--theme-light.pl-c-body--theme-vertical &,
+  .pl-c-body--theme-light.pl-c-body--theme-sidebar & {
+    @media all and (min-width: $pl-bp-med) {
+      // border-left-color: $pl-color-gray-light;
+    }
   }
 }
 
-/**
- * Sub-navigation
- * 1) Third-level links are stylistically different
- * than first and second nav links.
- */
+
 .pl-c-nav__subsublist {
-  @include listReset();
+  .pl-c-body--theme-vertical &,
+  .pl-c-body--theme-sidebar & {
+    @media all and (min-width: $pl-bp-med) {
+      // border-left: 1px solid $pl-color-gray-xdark;
+      margin-left: $nav-indentation;
+    }
+  }
 }

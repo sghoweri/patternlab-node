@@ -7,16 +7,27 @@
 * indepenedently of any project-specific styles
 */
 
-// Colors
 $pl-color-white: #fff;
-$pl-color-gray-02: #fafafa;
-$pl-color-gray-07: #eee;
-$pl-color-gray-13: #ddd;
-$pl-color-gray-20: #ccc;
-$pl-color-gray-50: #808080;
-$pl-color-gray-70: #4d4c4c;
-$pl-color-gray-87: #222;
+$pl-color-gray-xxlight: #fafafa;
+$pl-color-gray-xlight: #eee;
+$pl-color-gray-light: #ddd;
+$pl-color-gray: #ccc;
+$pl-color-gray-dark: #808080;
+$pl-color-gray-xdark: #4d4c4c;
+$pl-color-gray-xxdark: #222;
 $pl-color-black: #000;
+
+// Colors
+$pl-color-gray-xxlight: $pl-color-gray-xxlight;
+$pl-color-gray-xlight: $pl-color-gray-xlight;
+$pl-color-gray-light: $pl-color-gray-light;
+$pl-color-gray: $pl-color-gray;
+$pl-color-gray-dark: $pl-color-gray-dark;
+$pl-color-gray-xdark: $pl-color-gray-xdark;
+$pl-color-gray-xxdark: $pl-color-gray-xxdark;
+
+
+
 
 $pl-color-trans-white-25: rgba(255, 255, 255, 0.25);
 
@@ -42,12 +53,14 @@ $pl-pad-half: $pl-pad/2;
 $offset-top: 2rem;
 
 // Breakpoints
-$pl-bp-med: 42em;
+// $pl-bp-med: 42em;
+$pl-bp-med: 720px;
 $pl-bp-large: 53em;
 $pl-bp-xl: 62em;
 
 // Animations
 $pl-animate-quick: 0.1s;
+$pl-animate-normal: 0.3s;
 
 // Borders
 $pl-border-radius: 3px;

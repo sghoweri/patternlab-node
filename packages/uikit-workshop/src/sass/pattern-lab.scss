@@ -78,11 +78,39 @@
 /*------------------------------------*\
     #THEMES
 \*------------------------------------*/
-@import 'scss/05-themes/light-theme';
-@import 'scss/05-themes/density-theme';
-@import 'scss/05-themes/sidebar-theme';
+// @import 'scss/05-themes/light-theme';
+// @import 'scss/05-themes/density-theme';
+// @import 'scss/05-themes/sidebar-theme';
 
 /*------------------------------------*\
     #UTILITIES
 \*------------------------------------*/
 @import 'scss/06-utilities/visibility';
+
+
+// #282c34 -- background
+
+// rgb(33, 37, 43) - sidebar
+
+// rgb(51, 56, 66) - tabs to the left
+
+// rgb(215, 218, 224) - icons in tabs to the left
+
+
+// rgb(167, 168, 169); --> disabled text in sidebar
+// #cccccc --> normal text in sidebar
+
+
+// bottom most toolbar bg: rgb(33, 37, 43)
+// bottom most toolbar color: rgb(157, 165, 180)
+
+
+
+// top-most toolbar background: rgb(33, 37, 43)
+// top most toolbar color: rgb(157, 165, 180)
+
+
+
+// tabs:
+// border-left: 1px solid rgb(24, 26, 31);
+// background-color: rgb(33, 37, 43);

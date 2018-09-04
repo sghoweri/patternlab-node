@@ -8,11 +8,11 @@
  * 1) Breadcrumbs display a pattern's path inside the modal
  */
 .pl-c-breadcrumb {
-  @include listReset();
+  @include listReset;
   margin-bottom: 0.5rem;
   display: flex;
   font-size: $pl-font-size-sm;
-  color: $pl-color-gray-50;
+  color: $pl-color-gray-dark;
   text-transform: capitalize;
 }
 

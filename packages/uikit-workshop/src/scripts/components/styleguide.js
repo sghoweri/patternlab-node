@@ -5,7 +5,7 @@
 import $ from 'jquery';
 import Mousetrap from 'mousetrap';
 import { urlHandler, DataSaver } from '../utils';
-import { patternFinder } from './pattern-finder';
+// import { Search } from './pl-app/pl-search';
 
 (function(w) {
   let sw = document.body.clientWidth; //Viewport Width
@@ -555,12 +555,12 @@ import { patternFinder } from './pattern-finder';
   }
 
   // Open in new window link
-  if (document.querySelector('.pl-js-open-new-window') !== undefined) {
-    // Set value of href to the path to the pattern
-    document
-      .querySelector('.pl-js-open-new-window')
-      .setAttribute('href', urlHandler.getFileName(patternName));
-  }
+  // if (document.querySelector('.pl-js-open-new-window') !== undefined) {
+  //   // Set value of href to the path to the pattern
+  //   document
+  //     .querySelector('.pl-js-open-new-window')
+  //     .setAttribute('href', urlHandler.getFileName(patternName));
+  // }
 
   urlHandler.skipBack = true;
   document
@@ -572,7 +572,7 @@ import { patternFinder } from './pattern-finder';
     $('.pl-js-nav-container, .pl-js-acc-handle, .pl-js-acc-panel').removeClass(
       'pl-is-active'
     );
-    patternFinder.closeFinder();
+    // Search.closeFinder();
   }
 
   // update the iframe with the source from clicked element in pull down menu. also close the menu

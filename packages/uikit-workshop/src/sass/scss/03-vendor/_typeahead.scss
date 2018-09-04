@@ -8,87 +8,236 @@
  *    might already be using Typeahead
 */
 
-.pl-c-header {
-  /**
-     * Typeahead input
-     * 1) the primary DOM element that initiates the JS library 
-     */
-  .pl-c-typeahead {
-    border: 0;
-    background: $pl-color-gray-87 !important;
-    color: $pl-color-gray-50;
-    width: 100%;
-    right: 0;
-    padding: 0.61rem 0.5rem;
+
+/**
+    * Typeahead input
+    * 1) the primary DOM element that initiates the JS library 
+    */
+// .pl-c-typeahead__input {
+//   border-width: 1px;
+//   border-style: solid;
+//   border-color: $pl-color-gray-xxdark;
+//   // background: darken($pl-color-gray-xdark, 15%) !important;
+//   color: $pl-color-gray-xxdark;
+//   transition: all 0.3s ease;
+//   width: 100%;
+//   right: 0;
+//   padding: 0.31rem 0.5rem;
+//   font-size: inherit;
+//   border-radius: 4rem;
+
+//   &:focus {
+//     // background-color: darken($pl-color-gray-xdark, 10%) !important;
+//     color: $pl-color-white;
+//   }
+
+//   @media screen and (min-width: $pl-bp-med){
+//     max-width: 100%;
+//     width: auto;
+//   }
+// }
+pl-search {
+  background-color: inherit;
+  order: 2; // Display after nav list items
+  top: 0;
+  z-index: 10;
+  flex-shrink: 0;
+  padding: 0.5rem;
+  display: inline-block;
+
+  @media screen and (min-width: $pl-bp-med){
+    margin-left: 1rem;
+    flex-direction: row;
+    flex-shrink: 1;
+  }
+
+  .pl-c-body--theme-sidebar &,
+  .pl-c-body--theme-vertical & {
+    @media all and (min-width: $pl-bp-med) {
+      flex-direction: column;
+      margin-left: 0;
+    }
+  }
+}
+
+/**
+    * Typeahead wrapper
+    * 1) This is the JS-generated wrapper around the input
+    */
+.pl-c-typeahead {
+  width: 100%;
+  background-color: inherit;
+  order: 2; // Display after nav list items
+  display: flex !important;
+  z-index: 10;
+  text-transform: capitalize;
+  flex-direction: column;
+
+  @media screen and (min-width: $pl-bp-med){
+    flex-direction: row;
+  }
+
+  .pl-c-body--theme-sidebar &,
+  .pl-c-body--theme-vertical & {
+    @media all and (min-width: $pl-bp-med) {
+      flex-direction: column;
+    }
+  }
+}
+
+.pl-c-typeahead__hint {
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+}
+
+.pl-c-typeahead__hint,
+.pl-c-typeahead__input {
+  text-transform: capitalize;
+  border-radius: 3px;
+  // background-color: rgba($pl-color-gray-xxlight, 0.1) !important;
+  background-color: rgb(27, 29, 35) !important;
+  color: rgb(204, 204, 204) !important;
+  border-color: rgb(24, 26, 31) !important;
+  text-overflow: ellipsis;
+
+  border-width: 1px;
+  border-style: solid;
+  border-color: $pl-color-gray-xxdark;
+  color: $pl-color-gray-xxdark;
+  transition: all 0.1s ease;
+  width: 100%;
+  max-width: 100%;
+  padding: 0.31rem 0.5rem;
+  font-size: 16px; // prevent zooming in on mobile 
+
+  @media all and (min-width: $pl-bp-med) {
+    max-width: 12vw;
     font-size: inherit;
 
-    &:focus {
-      background: $pl-color-gray-50;
-      color: $pl-color-white;
+    .pl-c-body--theme-sidebar &,
+    .pl-c-body--theme-vertical & {
+      @media all and (min-width: $pl-bp-med) {
+        max-width: none;
+      }
     }
   }
 
-  /**
-     * Typeahead wrapper
-     * 1) This is the JS-generated wrapper around the input
-     * 2) Display after nav list items for horizontal theme
-     */
-  .twitter-typeahead {
-    display: flex !important;
-    order: 2; /* 2 */
-    width: 100%;
+  .pl-c-body--theme-light & {
+    color: $pl-color-gray-xdark !important;
+    border-color: $pl-color-gray !important;
+    background-color: $pl-color-gray-xxlight !important;
   }
 
-  .tt-input {
-    background: $pl-color-gray-50;
+  &::-webkit-input-placeholder,
+  &::-moz-input-placeholder {
+    transition: all 0.1s ease;
+  }
+
+
+  &:hover,
+  &:focus {
     color: $pl-color-white;
+    background-color: $pl-color-gray-xxdark !important;
 
-    &:hover {
-      color: $pl-color-white;
-      background: $pl-color-gray-87 !important;
-
-      &::-webkit-input-placeholder {
-        color: $pl-color-white;
-      }
-
-      &::-moz-input-placeholder {
-        color: $pl-color-white;
-      }
+    .pl-c-body--theme-light & {
+      color: $pl-color-gray-xxdark;
+      background-color: $pl-color-gray-xlight !important;
     }
 
-    &:focus {
+    &::-moz-input-placeholder,
+    &::-webkit-input-placeholder {
+      color: $pl-color-white;
+
+      .pl-c-body--theme-light & {
+        color: $pl-color-gray-xxdark !important;
+      }
+    }
+  }
+}
+
+.pl-c-typeahead__menu {
+  @include accordionPanel;
+  background-color: inherit;
+  text-transform: capitalize;
+  min-width: 10rem;
+  // background-color: $pl-color-gray-xdark;
+  border-color: transparent;
+  border-width: 1px;
+  border-style: solid;
+  width: 100%;
+  border-bottom-right-radius: $pl-border-radius-med;
+  border-bottom-left-radius: $pl-border-radius-med;
+  overflow: hidden;
+
+  max-height: 0;
+  display: block !important;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+
+  .pl-c-body--theme-sidebar &,
+  .pl-c-body--theme-vertical & {
+    @media all and (min-width: $pl-bp-med) {
+      border: none;
       border-radius: 0;
-      text-transform: lowercase;
-      color: $pl-color-white;
-      background: $pl-color-gray-87;
-      outline: 1px dotted $pl-color-gray-50;
-      outline-offset: -1px;
     }
   }
 
-  .tt-hint {
-    text-transform: lowercase;
+  &.is-open:not(.is-empty) {
+    max-height: 9999px;
+    opacity: 1;
+    border-color: $pl-color-gray-xxdark;
+
+    .pl-c-body--theme-light & {
+      border-color: $pl-color-gray;
+    }
   }
 
-  .tt-menu {
-    text-transform: lowercase;
-    background-color: $pl-color-gray-50;
-    width: 100%;
-    border-bottom-right-radius: $pl-border-radius-med;
-    border-bottom-left-radius: $pl-border-radius-med;
+  .pl-c-body--theme-sidebar &,
+  .pl-c-body--theme-vertical & {
+    @media all and (min-width: $pl-bp-med) {
+      position: relative !important;
+    }
   }
 
-  .tt-suggestion {
-    color: $pl-color-gray-07;
-    padding: 0.8em;
+  @media all and (max-width: $pl-bp-med - 1) {
+    position: relative !important;
+  }
+}
+
+.pl-c-typeahead__results {
+  background-color: inherit;
+}
+
+.pl-c-typeahead__result {
+  transition: all 0.3s ease;
+  background-color: inherit;
+  // color: $pl-color-gray;
+  // background-color: $pl-color-gray-xdark;
+  padding: 0.2rem 0.5rem;
+  cursor: pointer;
+
+  &:hover {
+    // background-color: $pl-color-gray-xxdark;
+    background-color: #2c313a;
+
+    .pl-c-body--theme-light & {
+      background-color: $pl-color-gray-xlight;
+    }
   }
 
-  .tt-suggestion.tt-cursor {
-    color: $pl-color-white;
-    background: $pl-color-trans-white-25;
+  &:active,
+  &:focus {
+    background-color: rgba(255, 255, 255, 0.18);
   }
+}
 
-  .tt-suggestion p {
-    margin: 0;
-  }
+.pl-c-typeahead__result.has-cursor {
+  color: $pl-color-white;
+  background-color: rgba(255, 255, 255, 0.18);
+  // background: $pl-color-trans-white-25;
+}
+
+.pl-c-typeahead__result p {
+  margin: 0;
 }

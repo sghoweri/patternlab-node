@@ -27,26 +27,31 @@
  * Header Link Style
  */
 @mixin linkStyle() {
-  background: $pl-color-black;
-  color: $pl-color-gray-50;
+  color: $pl-color-gray-dark;
   text-decoration: none;
-  line-height: 1;
-  padding: 0.7rem 0.5rem;
+  padding: 0.3rem 0.5rem;
   border: 0;
   text-align: left;
-  transition: background $pl-animate-quick ease-out,
+  transition: background-color $pl-animate-quick ease-out,
     color $pl-animate-quick ease-out;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1.6;
 
   &:hover {
-    color: $pl-color-white;
-    background: $pl-color-gray-87;
+    color: $pl-color-gray;
+    background-color: #2c313a;
   }
 
-  &:focus,
-  &.active {
+  &.pl-is-active,
+  &:active {
     color: $pl-color-white;
-    background: $pl-color-gray-87;
-    outline: 1px dotted $pl-color-gray-50;
+    background-color: rgba(255, 255, 255, 0.18)
+    
+  }
+
+  &:focus {
+    outline: 1px dotted $pl-color-gray-dark;
     outline-offset: -1px;
   }
 
@@ -54,8 +59,19 @@
      * Header link styles inside light theme
      */
   .pl-c-body--theme-light & {
-    background: $pl-color-white;
-    color: $pl-color-gray-70;
+    background-color: $pl-color-white;
+    color: $pl-color-gray-xdark;
+
+    &:hover {
+      background-color: $pl-color-gray-xlight;
+      color: $pl-color-gray-xdark;
+    }
+
+    &:focus,
+    &.pl-is-active {
+      background-color: $pl-color-gray-light;
+      color: $pl-color-gray-xdark;
+    }
   }
 
   /**
@@ -81,7 +97,12 @@
 @mixin accordionPanel() {
   overflow: hidden;
   max-height: 0;
-  transition: max-height $pl-animate-quick ease-out;
+  opacity: 0;
+  transition: max-height $pl-animate-quick ease, opacity $pl-animate-quick ease;
+
+  .is-resizing & {
+    transition: none;
+  }
 
   /**
      * Active is when accordion panel is open
@@ -90,9 +111,19 @@
     max-height: none;
     overflow: auto;
     @include hideScrollBar();
+    opacity: 1;
+    -webkit-overflow-scrolling: touch;
 
     @media all and (min-width: $pl-bp-med) {
       max-height: 120rem;
+      max-height: calc(var(--viewport-height) - 1rem);
     }
   }
+}
+
+@mixin noSelect(){
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */  
 }

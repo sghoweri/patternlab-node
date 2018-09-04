@@ -15,8 +15,16 @@
   justify-content: center;
 
   &:focus {
-    outline: 1px dotted $pl-color-gray-50;
+    outline: 1px dotted $pl-color-gray-dark;
     outline-offset: -1px;
+  }
+
+  .pl-c-body--theme-vertical &,
+  .pl-c-body--theme-sidebar & {
+    @media all and (min-width: $pl-bp-med) {
+      max-width: 7rem;
+      margin: 0 auto 1rem;
+    }
   }
 }
 

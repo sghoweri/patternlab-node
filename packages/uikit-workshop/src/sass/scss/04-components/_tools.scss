@@ -10,6 +10,7 @@
 .pl-c-tools {
   position: relative;
   display: flex;
+  background-color: inherit;
 }
 
 /**
@@ -18,7 +19,7 @@
  *    triggers the tools dropdown list
  */
 .pl-c-tools__toggle {
-  @include linkStyle();
+  @include linkStyle;
   margin: 0;
   padding-top: 0.6rem;
   padding-bottom: 0.5rem;
@@ -27,6 +28,13 @@
   justify-content: center;
   position: relative;
   min-width: 30px;
+
+  .pl-c-body--theme-vertical &,
+  .pl-c-body--theme-sidebar & {
+    @media all and (min-width: $pl-bp-med) {
+      display: none;
+    }
+  }
 }
 
 /**
@@ -35,15 +43,15 @@
  * 2) Set the width and height of the icon to be the same height of font
  */
 .pl-c-tools__toggle-icon {
-  position: absolute;
+  transition: inherit; // inherit transition styles from parent toggle
 }
 
 /**
  * Tools dropdown list
  */
 .pl-c-tools__list {
-  @include listReset();
-  @include accordionPanel();
+  @include listReset;
+  @include accordionPanel;
   position: absolute;
   top: 100%;
   right: 0;
@@ -51,6 +59,44 @@
   width: 10rem;
   border-bottom-left-radius: $pl-border-radius-med;
   border-bottom-right-radius: $pl-border-radius-med;
+  background-color: inherit;
+
+  border-left-width: 1px;
+  border-bottom-width: 1px;
+  border-left-style: solid;
+  border-bottom-style: solid;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+
+  &.pl-is-active {
+    border-bottom-color: $pl-color-gray-dark;
+    border-left-color: $pl-color-gray-dark;
+
+    .pl-c-body--theme-light & {
+      border-bottom-color: $pl-color-gray;
+      border-left-color: $pl-color-gray;
+    }
+
+    .pl-c-body--theme-vertical & {
+      @media all and (min-width: $pl-bp-med) {
+        border-bottom-color: transparent;
+        border-left-color: transparent;
+      }
+    }
+  }
+
+  .pl-c-body--theme-vertical & {
+    @media all and (min-width: $pl-bp-med) {
+      max-height: none;
+      overflow: visible;
+      position: relative;
+      border-radius: 0;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      opacity: 1;
+    }
+  }
 }
 
 /**
@@ -58,8 +104,13 @@
  * 1) Links and buttons inside of the tools dropdown
  */
 .pl-c-tools__action {
-  @include linkStyle();
-  display: block;
+  @include linkStyle;
+  display: flex;
+  align-items: center;
   width: 100%;
   margin: 0;
+}
+
+.pl-c-tools__action-icon {
+  margin-left: auto;
 }

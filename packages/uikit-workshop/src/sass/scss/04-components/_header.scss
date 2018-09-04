@@ -8,18 +8,60 @@
 *    and tools.
 * 2) Display nav and controls horizontally
 */
-.pl-c-header {
-  position: fixed;
+$pl-sidebar-width: 14rem;
+
+pl-header {
+// position: fixed;
+  position: relative;
   position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.pl-c-header {
+  // position: fixed;
+  // position: sticky;
   top: 0;
   left: 0;
   z-index: 4;
   display: flex; /* 2 */
   width: 100%;
-  background: $pl-color-black;
-  color: $pl-color-gray-50;
+  // background-color: $pl-color-black;
+  // background-color: rgb(33, 37, 43);
+  background-color: #21252B;
+  color: #cccccc;
+  // color: $pl-color-gray-dark;
   font-family: $pl-font;
-  font-size: $pl-font-size-sm;
+  // font-size: $pl-font-size-sm-2;
+  font-size: 13px;
+  line-height: 22px;
+  overflow: visible;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: $pl-color-gray-xdark;
+
+  .pl-c-body--theme-vertical &,
+  .pl-c-body--theme-sidebar & {
+    @media all and (min-width: $pl-bp-med) {
+      @include hideScrollBar;
+      width: $pl-sidebar-width; /* 1 */
+      height: 100vh; /* 2 */
+      flex-direction: column; /* 3 */
+      border-bottom: 0; /* 4 */
+      overflow: auto;
+      border-right-width: 1px;
+      border-right-style: solid;
+      // border-color: $pl-color-gray-xxdark;
+      padding-bottom: 0;
+      border-color: #3D4049;
+    }
+  }
+
+  .pl-c-body--theme-light & {
+    background-color: $pl-color-white;
+    border-color: $pl-color-gray;
+    color: $pl-color-gray-xxdark;
+  }
 }
 
 /**
@@ -28,7 +70,7 @@
  *    only appears on small screens
  */
 .pl-c-header__nav-toggle {
-  @include linkStyle();
+  @include linkStyle;
   border: 0;
 
   @media all and (min-width: $pl-bp-med) {

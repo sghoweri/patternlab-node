@@ -19,7 +19,7 @@
 	 * Link within the text passage
 	 */
   a {
-    color: $pl-color-gray-50;
+    color: $pl-color-gray-dark;
     text-decoration: underline;
     transition: opacity $pl-animate-quick ease;
 
@@ -50,7 +50,7 @@
 	 */
   hr {
     height: 1px;
-    background: $pl-color-gray-50;
+    background: $pl-color-gray-dark;
     margin: 2rem 0;
     border: 0;
   }

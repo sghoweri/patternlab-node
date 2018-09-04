@@ -11,9 +11,18 @@
   margin: 0;
   border: 0;
   padding: 0.3rem 0.5rem 0.4rem;
+  padding-left: 0;
   line-height: 1;
   display: flex;
   align-items: center;
+  white-space: nowrap;
+
+  .pl-c-body--theme-vertical &,
+  .pl-c-body--theme-sidebar & {
+    @media all and (min-width: $pl-bp-med) {
+      display: none;
+    }
+  }
 }
 
 /**
@@ -26,28 +35,41 @@
   border-radius: $pl-border-radius;
   background: transparent;
   font-size: inherit;
-  color: $pl-color-gray-50;
-  width: 35px;
+  width: 3.5em;
   text-align: right;
   transition: all $pl-animate-quick ease-out;
+  text-overflow: ellipsis;
 
   &::-moz-focus-inner {
     padding: 0;
     border: 0;
   }
 
+
+  color: $pl-color-gray-dark;
+  
+  .pl-c-body--theme-light & {
+    color: $pl-color-gray-xdark;
+  }
+
+  &:active,
+  &:focus,
   &:hover {
     color: $pl-color-white;
-    background: $pl-color-gray-87;
+    background-color: $pl-color-gray-xxdark;
+
+    .pl-c-body--theme-light & {
+      color: $pl-color-gray-xxdark;
+      background-color: $pl-color-gray-xlight;
+    }
   }
 
   &:active,
   &:focus {
-    color: $pl-color-white;
-    background: $pl-color-gray-87;
-    outline: 1px dotted $pl-color-gray-50;
+    outline: 1px dotted $pl-color-gray-dark;
     outline-offset: -1px;
   }
+
 }
 
 /**
@@ -57,6 +79,7 @@
   display: block;
   margin: 0;
   padding: 0;
+  color: $pl-color-gray-dark;
 }
 
 /**
@@ -75,6 +98,17 @@
     display: block;
     display: flex;
     align-items: center;
+    justify-content: center;
+  }
+
+  .pl-c-body--theme-vertical &,
+  .pl-c-body--theme-sidebar & { 
+    @media all and (min-width: $pl-bp-med) {
+      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }
 
@@ -83,5 +117,5 @@
  * 1) These are the buttons that control the viewport resizing
  */
 .pl-c-size-list__action {
-  @include linkStyle();
+  @include linkStyle;
 }
