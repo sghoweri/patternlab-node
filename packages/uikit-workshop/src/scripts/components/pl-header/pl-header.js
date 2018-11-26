@@ -4,6 +4,8 @@ const classNames = require('classnames');
 
 import { store } from '../../store.js'; // connect to redux
 import { BaseComponent } from '../base-component.js';
+import MenuIcon from '../../../icons/menu.svg';
+import VisuallyHidden from '@reach/visually-hidden';
 
 @define
 class Header extends BaseComponent {
@@ -30,7 +32,8 @@ class Header extends BaseComponent {
           class="pl-c-header__nav-toggle pl-js-nav-trigger"
           onClick={this.toggleNav}
         >
-          Menu
+          <MenuIcon height={20} width={20} fill="currentColor" />
+          <VisuallyHidden>Menu</VisuallyHidden>
         </button>
         <nav
           class="pl-c-nav pl-js-nav-target pl-js-nav-container"
