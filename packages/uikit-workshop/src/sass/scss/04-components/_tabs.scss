@@ -108,6 +108,11 @@
     border: 0;
     display: block;
     width: 100%; // fill parent container
+    max-height: 20rem;
+
+    .pl-c-drawer & {
+      max-height: none;
+    }
   }
 
   code[class*='language-'] {
