@@ -12,6 +12,21 @@ pl-controls {
     
     @media all and (min-width: $pl-bp-med) {
       width: 100%;
+      position: relative;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      
+      &:before {
+        position: absolute;
+        left: -1rem;
+        right: -1rem;
+        top: 0;
+        border-top: 2px solid;
+        border-top-color: var(--theme-border);
+        height: 2px;
+        content: '';
+        width: auto;
+      }
     }
   }
 }
