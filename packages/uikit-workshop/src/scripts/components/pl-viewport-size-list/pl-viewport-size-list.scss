@@ -12,6 +12,12 @@
   overflow-x: auto;
   padding: 0 0.25rem;
 
+  .pl-c-body--theme-sidebar & {
+    @media all and (min-width: $pl-bp-med) {
+      padding-bottom: 0.5rem;
+    }
+  }
+
   @media all and (min-width: $pl-bp-med) {
     align-items: center;
     -webkit-overflow-scrolling: touch;
@@ -30,6 +36,8 @@
  */
 .pl-c-size-list__action {
   @include linkStyle();
+  padding-left: 0.3rem;
+  padding-right: 0.3rem;
 }
 
 // Force list items to center align if not overflow scrolling
