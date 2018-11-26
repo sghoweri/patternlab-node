@@ -87,7 +87,7 @@ module.exports = async function() {
       resolve: {
         extensions: ['.js', '.jsx'],
         alias: {
-          react: 'preact-compat',
+          react: path.resolve(__dirname, './src/scripts/utils/preact-compat'),
           'react-dom': 'preact-compat',
         },
       },
@@ -150,6 +150,18 @@ module.exports = async function() {
                 ],
               },
             },
+          },
+          {
+            test: /\.svg$/,
+            use: [
+              {
+                loader: '@svgr/webpack',
+              },
+            ],
+          },
+          {
+            test: /\.css$/,
+            use: ['style-loader', 'css-loader'],
           },
           {
             test: /\.scss$/,

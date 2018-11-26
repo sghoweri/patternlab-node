@@ -29,6 +29,7 @@
   "repository": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop",
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "devDependencies": {
+    "@svgr/webpack": "^4.1.0",
     "@babel/core": "^7.0.0",
     "@babel/plugin-proposal-class-properties": "^7.0.0",
     "@babel/plugin-proposal-decorators": "^7.0.0",
@@ -69,6 +70,8 @@
     "node": ">=10.0"
   },
   "dependencies": {
+    "preact-context": "^1.1.2",
+    "react-popper-tooltip": "^2.7.0",
     "@reach/visually-hidden": "^0.1.1",
     "@skatejs/renderer-preact": "^0.3.3",
     "@webcomponents/custom-elements": "^1.2.1",
