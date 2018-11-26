@@ -2,6 +2,7 @@ import { define, props } from 'skatejs';
 import { h } from 'preact';
 const classNames = require('classnames');
 
+import ArrowIcon from '../../../icons/arrow-down.svg';
 import { BaseComponent } from '../base-component.js';
 import $ from 'jquery';
 
@@ -12,6 +13,14 @@ const Button = props => {
       role="tab"
       {...props}
     >
+      <span class="pl-c-nav__link-icon">
+        <ArrowIcon
+          height={16}
+          width={16}
+          viewBox="0 0 24 24"
+          fill="currentColor"
+        />
+      </span>
       {props.children}
     </button>
   );
@@ -108,7 +117,10 @@ class Nav extends BaseComponent {
                                     patternSubtypeItem.patternPartial
                                   }
                                 >
-                                  {patternSubtypeItem.patternName}
+                                  {patternSubtypeItem.patternName === 'View All'
+                                    ? patternSubtype.patternSubtypeUC +
+                                      ' Overview'
+                                    : patternSubtypeItem.patternName}
 
                                   {patternSubtypeItem.patternState && (
                                     <span
@@ -134,12 +146,13 @@ class Nav extends BaseComponent {
                       <li class="pl-c-nav__item">
                         <a
                           href={`patterns/${patternItem.patternPath}`}
-                          class="pl-c-nav__link"
+                          class="pl-c-nav__link pl-c-nav__link--pattern"
                           data-patternpartial={patternItem.patternPartial}
                           tabindex="0"
                         >
-                          {patternItem.patternName}
-
+                          {patternItem.patternName === 'View All'
+                            ? patternItem.patternName + ' ' + item.patternTypeUC
+                            : patternItem.patternName}
                           {patternItem.patternState && (
                             <span
                               class={`pl-c-pattern-state pl-c-pattern-state--${
@@ -160,7 +173,7 @@ class Nav extends BaseComponent {
         <li class="pl-c-nav__item">
           <a
             href="styleguide/html/styleguide.html"
-            class="pl-c-nav__link"
+            class="pl-c-nav__link pl-c-nav__link--pattern"
             data-patternpartial="all"
             tabindex="0"
           >
