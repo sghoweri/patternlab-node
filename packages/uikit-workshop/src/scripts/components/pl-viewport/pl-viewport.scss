@@ -29,6 +29,7 @@ pl-iframe {
   z-index: 0;
   flex-grow: 1;
   transition: height 0.3s ease;
+  background-color: var(--theme-secondary);
 
   @supports (position: sticky) {
     top: 0;
