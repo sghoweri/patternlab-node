@@ -27,11 +27,9 @@
  * Header Link Style
  */
 @mixin linkStyle() {
-  background-color: $pl-color-black;
-  color: $pl-color-gray-50;
+  color: $pl-color-gray-50; // @WIP: #C3C8CC;
   text-decoration: none;
-  line-height: 1;
-  padding: 0.7rem 0.5rem;
+  padding: 0.4rem 0.5rem;
   border: 0;
   text-align: left;
   transition: background-color $pl-animate-quick ease-out,
@@ -93,7 +91,7 @@
 @mixin accordionPanel() {
   overflow: hidden;
   max-height: 0;
-  transition: max-height $pl-animate-quick ease-out;
+  transition: max-height $pl-animate-quick ease-out, transform $pl-animate-quick ease-out;
 
   /**
   * Active styles for when the accordion panel is open
@@ -105,6 +103,7 @@
       var(--pl-viewport-height, calc(100vh - #{$offset-top})) - 1rem
     ); /* [1] */
     overflow: auto;
+    transform: translateY(0);
     -webkit-overflow-scrolling: touch;
   }
 }
