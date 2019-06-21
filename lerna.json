@@ -1,7 +1,14 @@
 {
   "lerna": "3.11.0",
   "packages": [
-    "packages/*"
+    "packages/cli",
+    "packages/core",
+    "packages/create",
+    "packages/engines/*",
+    "packages/live-server",
+    "packages/plugins/*",
+    "packages/starterkits/*",
+    "packages/uikit-workshop/*"
   ],
   "version": "fixed",
   "command": {
